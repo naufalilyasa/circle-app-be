@@ -22,7 +22,7 @@ const handleLogin = async (req: Request, res: Response) => {
       maxAge: 3600000,
     });
 
-    res.json({ message: "berhasil login" });
+    res.status(200).json({ message: "berhasil login" });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: "Server internal error" });
@@ -35,14 +35,7 @@ const handleRegister = async (req: Request, res: Response) => {
     res.status(400).json({ message: error.message });
   }
 
-  const { name, username, email, password, confirmPassword } = req.body;
-
-  if (password !== confirmPassword) {
-    res
-      .status(400)
-      .json({ message: "password dan confirm password tidak sama" });
-    return;
-  }
+  const { name, username, email, password } = req.body;
 
   try {
     const user = await registerUser(name, username, email, password);
