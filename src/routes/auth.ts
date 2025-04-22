@@ -7,7 +7,7 @@ const router = Router();
 router.post("/login", handleLogin);
 router.post("/register", handleRegister);
 router.get("/profile", authenticate, (req: Request, res: Response) => {
-  res.status(401).json({ message: "Welcome", user: (req as any).user });
+  res.status(200).json({ message: "Welcome", user: (req as any).user });
 });
 
 export { router };

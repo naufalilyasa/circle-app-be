@@ -18,7 +18,7 @@ export const authenticate = (
     (req as any).user = decoded as any;
     next();
   } catch (error) {
-    res.status(500).json({ message: "Forbidden" });
+    res.status(403).json({ message: "Forbidden" });
     return;
   }
 };
