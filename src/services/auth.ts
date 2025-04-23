@@ -6,7 +6,8 @@ export const registerUser = async (
   name: string,
   username: string,
   email: string,
-  password: string
+  password: string,
+  profile: string
 ) => {
   if (!email.match(/@/) || password.length < 6) {
     throw new Error("email dan password salah");
@@ -20,7 +21,7 @@ export const registerUser = async (
     throw new Error("Hashing password gagal");
   }
 
-  const newDataUser = { name, username, email, password: hash };
+  const newDataUser = { name, username, email, password: hash, profile };
   const user = await prisma.user.create({ data: newDataUser });
 
   return { id: user.id, email: user.email };

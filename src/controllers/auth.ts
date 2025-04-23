@@ -33,12 +33,20 @@ const handleRegister = async (req: Request, res: Response) => {
   const { error } = registerSchema.validate(req.body);
   if (error) {
     res.status(400).json({ message: error.message });
+    return;
   }
 
   const { name, username, email, password } = req.body;
 
+  if (!req.file) {
+    res.status(400).json({ message: "File tidak ditemukan." });
+    return;
+  }
+
+  const profile = req.file.filename;
+
   try {
-    const user = await registerUser(name, username, email, password);
+    const user = await registerUser(name, username, email, password, profile);
 
     res.status(201).json({ user, message: "Berhasil register" });
   } catch (err: any) {
