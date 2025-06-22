@@ -3,7 +3,7 @@ import { PrismaClient } from "../src/generated/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const deleteTweets = await prisma.tweet.deleteMany({});
+  const deleteTweets = await prisma.thread.deleteMany({});
   const deleteUsers = await prisma.user.deleteMany({});
 
   // Buat beberapa user

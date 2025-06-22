@@ -1,49 +1,126 @@
 import bcrypt from "bcrypt";
 import { prisma } from "../prisma/client";
-import { signToken } from "../utils/jwt";
+import { Prisma, User } from "../generated/client";
+import crypto from "crypto";
+import redisClient from "../utils/connectRedis";
+import config from "config";
+import { signJwt } from "../utils/jwt";
+import AppError from "../utils/appError";
 
-export const registerUser = async (
-  name: string,
-  username: string,
-  email: string,
-  password: string,
-  profile: string
-) => {
-  if (!email.match(/@/) || password.length < 6) {
-    throw new Error("email dan password salah");
-  }
+export const excludedFields = [
+  "createdAt",
+  "updatedAt",
+  "password",
+  "confirmPassword",
+  "verified",
+  "verificationCode",
+  "passwordResetAt",
+  "passwordResetToken",
+];
+
+export const createUser = async (input: Prisma.UserCreateInput) => {
+  // const { email, password, name, username, photoProfile } = input;
+  const { email, password, name, username } = input;
+
+  const verifyCode = crypto.randomBytes(32).toString("hex");
+  const verificationCode = crypto
+    .createHash("sha256")
+    .update(verifyCode)
+    .digest("hex");
 
   const saltRounds = 10;
   const salt = await bcrypt.genSalt(saltRounds);
-  const hash = await bcrypt.hash(password, salt);
+  const hashPassword = await bcrypt.hash(password, salt);
 
-  if (!hash) {
-    throw new Error("Hashing password gagal");
-  }
+  const dataUser = {
+    name,
+    username,
+    email,
+    password: hashPassword,
+    // photoProfile,
+    verificationCode,
+  };
 
-  const newDataUser = { name, username, email, password: hash, profile };
-  const user = await prisma.user.create({ data: newDataUser });
+  const user = (await prisma.user.create({ data: dataUser })) as User;
 
-  return { id: user.id, email: user.email };
+  return { user, verifyCode, verificationCode };
+
+  // return { id: user.id, email: user.email };
 };
 
-export const loginUser = async (email: string, password: string) => {
-  const user = await prisma.user.findUnique({
-    where: { email },
-    include: { _count: { select: { tweets: true } } },
+export const loginUser = async (
+  email: string,
+  password: string
+): Promise<{ access_token: string; refresh_token: string }> => {
+  const user = await findUniqueUser(
+    {
+      email: email.toLowerCase(),
+    },
+    {
+      id: true,
+      email: true,
+      verified: true,
+      password: true,
+    }
+  );
+
+  // check if user verified
+  if (!user.verified)
+    throw new AppError(
+      400,
+      "You are not verified, please verify your email to login"
+    );
+
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    throw new AppError(400, "Invalid email or password");
+  }
+
+  return await signTokens(user);
+};
+
+export const updateUser = async (
+  where: Prisma.UserWhereUniqueInput,
+  data: Prisma.UserUpdateInput,
+  select?: Prisma.UserSelect
+) => {
+  return (await prisma.user.update({
+    where,
+    data,
+    select,
+  })) as User;
+};
+
+const signTokens = async (user: Prisma.UserCreateInput) => {
+  // create session
+  redisClient.set(`${user.id}`, JSON.stringify(user), {
+    EX: config.get<number>("redisCacheExpiresIn") * 60,
   });
 
-  if (!user) {
-    throw new Error("User tidak ditemukan");
-  }
+  // Create access and expires token
+  const access_token = signJwt({ sub: user.id }, "accessTokenPrivateKey", {
+    expiresIn: `${config.get<number>("accessTokenExpiresIn")}m`,
+  });
 
-  const match = await bcrypt.compare(password, user?.password);
+  const refresh_token = signJwt({ sub: user.id }, "refreshTokenPrivateKey", {
+    expiresIn: `${config.get<number>("refreshTokenExpiresIn")}m`,
+  });
 
-  if (!match) {
-    throw new Error("gagal login password salah");
-  }
+  return { access_token, refresh_token };
+};
 
-  const token = signToken({ id: user.id, role: "admin" });
+export const findUniqueUser = async (
+  where: Prisma.UserWhereUniqueInput,
+  select?: Prisma.UserSelect
+) => {
+  return (await prisma.user.findUnique({
+    where,
+    select,
+  })) as User;
+};
 
-  return token;
+export const findUser = async (
+  where: Prisma.UserWhereInput,
+  select?: Prisma.UserSelect
+) => {
+  return await prisma.user.findFirst({ where, select });
 };

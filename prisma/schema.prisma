@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../src/generated/client"
+  output   = "../src/generated/client"
 }
 
 datasource db {
@@ -15,23 +15,75 @@ datasource db {
 }
 
 model User {
-  id        Int @id @default(autoincrement())
-  name      String
-  profile   String
-  username  String @unique
-  email     String @unique
-  password  String
-  tweets    Tweet[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                 String    @id @default(uuid())
+  name               String
+  photoProfile       String?   @default("default-photo-profile.png")
+  username           String?   @unique
+  email              String    @unique
+  password           String
+  role               Role      @default(USER)
+  verified           Boolean   @default(false)
+  verificationCode   String?   @unique @db.Text
+  tweets             Tweet[]   @relation("UserTweets")
+  likes              Like[]    @relation("UserLikes")
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  provider           String?
+  passwordResetToken String?
+  passwordResetAt    DateTime?
+
+  @@unique([email, verificationCode, username, passwordResetToken])
+  @@index([email, verificationCode, username, passwordResetToken])
+  @@map(name: "users")
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 model Tweet {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   content   String
-  authorId  Int
+  imageUrl  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  author    User     @relation(fields: [authorId], references: [id])
+  authorId String
+  author   User   @relation("UserTweets", fields: [authorId], references: [id])
+
+  replies Reply[] @relation("TweetReplies")
+  like    Like?   @relation("TweetLike")
+
+  @@map(name: "tweets")
+}
+
+model Reply {
+  id        String   @id @default(uuid())
+  content   String
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tweetId String
+  Tweet   Tweet  @relation("TweetReplies", fields: [tweetId], references: [id])
+  like    Like?  @relation("ReplyLike")
+
+  @@map("replies")
+}
+
+model Like {
+  id String @id @default(uuid())
+
+  userId String
+  user   User   @relation("UserLikes", fields: [userId], references: [id])
+
+  tweetId String @unique
+  tweet   Tweet  @relation("TweetLike", fields: [tweetId], references: [id])
+
+  replyId String @unique
+  reply   Reply  @relation("ReplyLike", fields: [replyId], references: [id])
+
+  @@unique([tweetId, replyId])
+  @@map("likes")
 }

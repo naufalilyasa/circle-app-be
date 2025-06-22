@@ -12,9 +12,9 @@ const getTweets = async (req: Request, res: Response) => {
   let tweets = undefined;
 
   try {
-    if (userId !== undefined) {
+    if (!userId) {
       tweets = await prisma.tweet.findMany({
-        where: { authorId: Number(userId) },
+        where: { authorId: userId },
         orderBy: { [sortBy as string]: order as "asc" | "desc" },
         skip: Number(offset),
         take: Number(limit),
@@ -35,7 +35,7 @@ const getTweets = async (req: Request, res: Response) => {
 
 const getTweetById = async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const tweet = await prisma.tweet.findUnique({
       where: { id },
       include: { author: true },
@@ -61,7 +61,7 @@ const createTweet = async (req: Request, res: Response) => {
 
 const deleteTweet = async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     await prisma.tweet.delete({ where: { id } });
     res.status(200).json({ message: "Berhasil menghapus tweet" });
   } catch (e) {
@@ -70,7 +70,7 @@ const deleteTweet = async (req: Request, res: Response) => {
   }
 };
 const updateTweet = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
+  const id = req.params.id;
   // const { content, authorId } = req.body;
   const { content } = req.body;
   const updateTweetData = { content };
