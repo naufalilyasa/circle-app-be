@@ -1,6 +1,7 @@
 import { createClient } from "redis";
+import "dotenv/config";
 
-const redisUrl = "redis://localhost:6379";
+const redisUrl = process.env.REDIS_URL;
 
 const redisClient = createClient({
   url: redisUrl,
@@ -8,9 +9,13 @@ const redisClient = createClient({
 
 const connectRedis = async () => {
   try {
-    await redisClient.connect();
-    console.log("Redis client connect successfully");
-    redisClient.set("try", "Hello welcome to my app");
+    if (!redisClient.isOpen) {
+      await redisClient.connect();
+      console.log("✅ Redis connected successfully");
+      await redisClient.set("try", "Hello welcome to my app");
+    } else {
+      console.log("ℹ️ Redis already connected");
+    }
   } catch (error) {
     console.log(error);
     setTimeout(connectRedis, 5000);

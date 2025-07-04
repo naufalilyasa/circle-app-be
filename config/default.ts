@@ -5,9 +5,12 @@ export default {
   refreshTokenPrivateKey: process.env.JWT_REFRESH_TOKEN_PRIVATE_KEY,
   refreshTokenPublicKey: process.env.JWT_REFRESH_TOKEN_PUBLIC_KEY,
 
-  redisCacheExpiresIn: 60,
-  refreshTokenExpiresIn: 60,
-  accessTokenExpiresIn: 15,
+  // 60
+  redisCacheExpiresIn: 1440,
+  // 60
+  refreshTokenExpiresIn: 1440,
+  // 15
+  accessTokenExpiresIn: 60,
   origin: "http://localhost:3000",
 
   smtp: {

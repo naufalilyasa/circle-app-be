@@ -16,6 +16,7 @@ const validateEnv = () => {
     GOOGLE_APP_PASSWORD: str(),
     GOOGLE_USER: str(),
     GOOGLE_SENDER_MAIL: str(),
+    REDIS_URL: str(),
   });
 };
 
