@@ -5,8 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/client"
+  provider        = "prisma-client-js"
+  output          = "../src/generated/client"
+  previewFeatures = ["fullTextSearchPostgres"]
 }
 
 datasource db {
@@ -17,8 +18,10 @@ datasource db {
 model User {
   id                 String    @id @default(uuid())
   name               String
-  photoProfile       String?   @default("default-photo-profile.png")
+  photoProfile       String?   @default("https://github.com/shadcn.png")
+  banner             String?
   username           String?   @unique
+  bio                String?
   email              String    @unique
   password           String
   role               Role      @default(USER)
@@ -26,11 +29,14 @@ model User {
   verificationCode   String?   @unique @db.Text
   tweets             Tweet[]   @relation("UserTweets")
   likes              Like[]    @relation("UserLikes")
+  replies            Reply[]   @relation("UserTweetReplies")
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
   provider           String?
   passwordResetToken String?
   passwordResetAt    DateTime?
+  followers          Follow[]  @relation("FollowedBy")
+  following          Follow[]  @relation("Following")
 
   @@unique([email, verificationCode, username, passwordResetToken])
   @@index([email, verificationCode, username, passwordResetToken])
@@ -44,46 +50,56 @@ enum Role {
 
 model Tweet {
   id        String   @id @default(uuid())
-  content   String
+  content   String?
   imageUrl  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  authorId String
-  author   User   @relation("UserTweets", fields: [authorId], references: [id])
-
-  replies Reply[] @relation("TweetReplies")
-  like    Like?   @relation("TweetLike")
+  authorId  String
+  author    User     @relation("UserTweets", fields: [authorId], references: [id])
+  replies   Reply[]  @relation("TweetReplies")
+  likes     Like[]   @relation("TweetLike")
 
   @@map(name: "tweets")
 }
 
 model Reply {
   id        String   @id @default(uuid())
-  content   String
+  content   String?
   imageUrl  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  tweetId String
-  Tweet   Tweet  @relation("TweetReplies", fields: [tweetId], references: [id])
-  like    Like?  @relation("ReplyLike")
+  tweetId   String
+  Tweet     Tweet    @relation("TweetReplies", fields: [tweetId], references: [id])
+  authorId  String
+  author    User     @relation("UserTweetReplies", fields: [authorId], references: [id])
+  likes     Like[]   @relation("ReplyLike")
 
   @@map("replies")
 }
 
 model Like {
-  id String @id @default(uuid())
+  id      String  @id @default(uuid())
+  userId  String
+  user    User    @relation("UserLikes", fields: [userId], references: [id])
+  tweetId String?
+  tweet   Tweet?  @relation("TweetLike", fields: [tweetId], references: [id])
+  replyId String?
+  reply   Reply?  @relation("ReplyLike", fields: [replyId], references: [id])
 
-  userId String
-  user   User   @relation("UserLikes", fields: [userId], references: [id])
-
-  tweetId String @unique
-  tweet   Tweet  @relation("TweetLike", fields: [tweetId], references: [id])
-
-  replyId String @unique
-  reply   Reply  @relation("ReplyLike", fields: [replyId], references: [id])
-
-  @@unique([tweetId, replyId])
+  @@unique([userId, tweetId])
+  @@unique([userId, replyId])
   @@map("likes")
+}
+
+model Follow {
+  id         String @id @default(uuid())
+  follower   User   @relation("Following", fields: [followerId], references: [id])
+  followerId String
+
+  following   User   @relation("FollowedBy", fields: [followingId], references: [id])
+  followingId String
+
+  createdAt DateTime @default(now())
+
+  @@unique([followerId, followingId])
 }
