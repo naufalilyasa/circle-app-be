@@ -18,6 +18,6 @@
     }
   },
   // "include": ["**/*.ts"],
-  "include": ["./src/**/*", "config"],
+  "include": ["./src/**/*", "config", "api"],
   "exclude": ["node_modules", "dist"]
 }
