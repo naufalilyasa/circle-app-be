@@ -1,14 +1,16 @@
 import express, { Request, Response, NextFunction } from "express";
 import "dotenv/config";
 import cookieParser from "cookie-parser";
-// import { router as tweetRoutes } from "./routes/tweet";
+import { router as tweetRoutes } from "./routes/tweet";
 import { router as userRoutes } from "./routes/user";
 import { router as authRoutes } from "./routes/auth";
+import { router as replyRoutes } from "./routes/reply";
+import { router as likeRoutes } from "./routes/like";
+import { router as followRoutes } from "./routes/follow";
 import path from "path";
 import corsMiddleware from "./middlewares/cors";
 import morgan from "morgan";
 import AppError from "./utils/appError";
-import nodemailer from "nodemailer";
 import validateEnv from "./utils/validateEnv";
 import config from "config";
 import methodOverride from "method-override";
@@ -22,6 +24,7 @@ app.use(methodOverride("_method"));
 
 // Static file
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("public", express.static(path.join(__dirname, "public/temp")));
 
 // template engine
 app.set("view engine", "pug");
@@ -42,6 +45,10 @@ if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 // Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/tweets", tweetRoutes);
+app.use("/api/v1/replies", replyRoutes);
+app.use("/api/v1/", likeRoutes);
+app.use("/api/v1/", followRoutes);
 
 // (async function () {
 //   const credentials = await nodemailer.createTestAccount();
