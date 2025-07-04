@@ -70,8 +70,10 @@ app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-const port = config.get<number>("port");
+// const port = config.get<number>("port");
 
-app.listen(port, () => {
-  console.log(`Server running at port ${process.env.PORT}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server running at port ${process.env.PORT}`);
+// });
+
+export default app;
