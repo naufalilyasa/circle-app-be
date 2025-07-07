@@ -25,12 +25,11 @@ import bcrypt from "bcrypt";
 const isProduction = process.env.NODE_ENV === "production";
 
 const cookiesOptions: CookieOptions = {
-  httpOnly: false,
+  httpOnly: true,
   sameSite: isProduction ? "none" : "lax",
   secure: isProduction,
 };
 
-if (process.env.NODE_ENV === "production") cookiesOptions.secure = true;
 
 const accessTokenCookieOptions: CookieOptions = {
   ...cookiesOptions,
