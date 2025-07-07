@@ -23,7 +23,7 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 
 const cookiesOptions: CookieOptions = {
-  httpOnly: true,
+  httpOnly: false,
   sameSite: "none",
 };
 
