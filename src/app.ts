@@ -47,8 +47,8 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/tweets", tweetRoutes);
 app.use("/api/v1/replies", replyRoutes);
-app.use("/v1/", likeRoutes);
-app.use("/v1/", followRoutes);
+app.use("/api/v1", likeRoutes);
+app.use("/api/v1", followRoutes);
 app.get("/ping", (req, res) => {
   res.send("pong");
 });
