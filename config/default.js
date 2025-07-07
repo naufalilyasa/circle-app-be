@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 module.exports = {
   port: parseInt(process.env.PORT || "3000"),
   accessTokenPrivateKey: process.env.JWT_ACCESS_TOKEN_PRIVATE_KEY,
