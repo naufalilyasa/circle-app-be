@@ -49,13 +49,12 @@ app.use("/api/v1/tweets", tweetRoutes);
 app.use("/api/v1/replies", replyRoutes);
 app.use("/api/v1/", likeRoutes);
 app.use("/api/v1/", followRoutes);
+app.get("/ping", (req, res) => {
+  res.send("pong");
+});
 
-// (async function () {
-//   const credentials = await nodemailer.createTestAccount();
-//   console.log(credentials);
-// })();
 // unhandled routes
-// app.get("*", (req: Request, res: Response, next: NextFunction) => {
+// app.all("/*", (req: Request, res: Response, next: NextFunction) => {
 //   next(new AppError(404, `Route ${req.originalUrl} not found`));
 // });
 
