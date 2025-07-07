@@ -1,5 +1,4 @@
 {
-  "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
     "target": "es6" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
     "module": "commonjs" /* Specify what module code is generated. */,
@@ -19,10 +18,10 @@
     "strictBindCallApply": true,
     "strictPropertyInitialization": true,
     "paths": {
-      "*": ["node_modules/*", "src/types/*"]
+      "@/*": ["src/*"]
     }
   },
   // "include": ["**/*.ts"],
-  "include": ["./src/**/*", "config", "api"],
+  "include": ["./src/**/*", "config"],
   "exclude": ["node_modules", "dist"]
 }
