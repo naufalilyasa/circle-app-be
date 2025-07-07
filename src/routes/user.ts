@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { NextFunction, Router } from "express";
 import {
   deleteUser,
   getUsers,
@@ -15,7 +15,7 @@ import upload from "../middlewares/multer";
 const router = Router();
 
 router.use(deserializeUser, requireUser);
-router.get("/me", getMeHandler);
+router.get("/me", limiter({ limit: 50 }), getMeHandler);
 
 // router.get("/", getUsers);
 router.get("/", searchUsers);
