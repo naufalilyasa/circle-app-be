@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx tsx --watch src/app.ts",
     "start": "node dist/src/index.js",
-    "build": "tsc && cp -r config dist/config",
+    "build": "tsc",
     "vercel-build": "tsc",
     "add-build": "git add dist",
     "ts.check": "tsc --project tsconfig.json"
