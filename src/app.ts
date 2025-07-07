@@ -12,6 +12,7 @@ import corsMiddleware from "./middlewares/cors";
 import morgan from "morgan";
 import AppError from "./utils/appError";
 import validateEnv from "./utils/validateEnv";
+import config from "config";
 import methodOverride from "method-override";
 
 validateEnv();
@@ -68,10 +69,10 @@ app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-// const port = config.get<number>("port");
+const port = config.get<number>("port");
 
-// app.listen(port, () => {
-//   console.log(`Server running at port ${process.env.PORT}`);
-// });
+app.listen(port, () => {
+  console.log(`Server running at port ${process.env.PORT}`);
+});
 
 export default app;
