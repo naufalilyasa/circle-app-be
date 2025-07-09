@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { prisma } from "../prisma/client";
 import uploadOnCloudinary from "../utils/cloudinary";
 import { verifyJwt } from "../utils/jwt";
+import sharp from "sharp";
 
 const getAllTweets = async (req: Request, res: Response) => {
   const { sortBy = "createdAt", order = "desc" } = req.query;
@@ -355,7 +356,11 @@ const createTweet = async (req: Request, res: Response) => {
 
     let imageSecureUrl = null;
     if (req.file) {
-      imageSecureUrl = await uploadOnCloudinary(req.file.buffer);
+      // Convert ke WebP
+      const webpBuffer = await sharp(req.file.buffer)
+        .webp({ quality: 80 })
+        .toBuffer();
+      imageSecureUrl = await uploadOnCloudinary(webpBuffer);
     }
 
     const newDataTweet = { content, authorId, imageUrl: imageSecureUrl };
@@ -386,7 +391,11 @@ const updateTweet = async (req: Request, res: Response) => {
   const { content } = req.body;
   let imageSecureUrl = null;
   if (req.file) {
-    imageSecureUrl = await uploadOnCloudinary(req.file.buffer);
+    // Convert ke WebP
+    const webpBuffer = await sharp(req.file.buffer)
+      .webp({ quality: 80 })
+      .toBuffer();
+    imageSecureUrl = await uploadOnCloudinary(webpBuffer);
   }
 
   const updateTweetData = { content, imageUrl: imageSecureUrl };

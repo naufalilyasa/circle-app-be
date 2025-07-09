@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../prisma/client";
 import uploadOnCloudinary from "../utils/cloudinary";
+import sharp from "sharp";
 
 const getAllReplies = async (req: Request, res: Response) => {
   try {
@@ -30,7 +31,11 @@ const createReply = async (req: Request, res: Response) => {
 
     let imageSecureUrl = null;
     if (req.file) {
-      imageSecureUrl = await uploadOnCloudinary(req.file.buffer);
+      // Convert ke WebP
+      const webpBuffer = await sharp(req.file.buffer)
+        .webp({ quality: 80 })
+        .toBuffer();
+      imageSecureUrl = await uploadOnCloudinary(webpBuffer);
     }
 
     const result = await prisma.reply.create({

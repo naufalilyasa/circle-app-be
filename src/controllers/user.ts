@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { prisma } from "../prisma/client";
 import uploadOnCloudinary from "../utils/cloudinary";
 import { verifyJwt } from "../utils/jwt";
+import sharp from "sharp";
 
 const getMeHandler = async (
   req: Request,
@@ -177,16 +178,19 @@ const updateUserHandler = async (req: Request, res: Response) => {
 
     let imagePhotoProfileSecureUrl = null;
     if (files.photoProfile) {
-      imagePhotoProfileSecureUrl = await uploadOnCloudinary(
-        files.photoProfile?.[0]?.buffer
-      );
+      // Convert ke WebP
+      const webpBuffer = await sharp(files.photoProfile?.[0]?.buffer)
+        .webp({ quality: 80 })
+        .toBuffer();
+      imagePhotoProfileSecureUrl = await uploadOnCloudinary(webpBuffer);
     }
 
     let imageBannerSecureUrl = null;
     if (files.banner) {
-      imageBannerSecureUrl = await uploadOnCloudinary(
-        files.banner?.[0]?.buffer
-      );
+      const webpBuffer = await sharp(files.banner?.[0]?.buffer)
+        .webp({ quality: 80 })
+        .toBuffer();
+      imageBannerSecureUrl = await uploadOnCloudinary(webpBuffer);
     }
 
     const updateUserData = {

@@ -38,6 +38,7 @@
     "pug": "^3.0.3",
     "redis": "^5.5.6",
     "serverless-http": "^3.2.0",
+    "sharp": "^0.34.2",
     "zod": "^3.25.64"
   },
   "devDependencies": {
@@ -52,7 +53,7 @@
     "@types/lodash": "^4.17.17",
     "@types/method-override": "^3.0.0",
     "@types/morgan": "^1.9.10",
-    "@types/multer": "^1.4.12",
+    "@types/multer": "^1.4.13",
     "@types/node": "^22.14.0",
     "@types/nodemailer": "^6.4.17",
     "@types/pug": "^2.0.10",
