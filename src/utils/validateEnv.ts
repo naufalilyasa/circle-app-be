@@ -21,6 +21,7 @@ const validateEnv = () => {
     CLOUDINARY_API_KEY: str(),
     CLOUDINARY_API_SECRET: str(),
     FRONTEND_URL: str(),
+    BASE_URL: str(),
   });
 };
 

@@ -287,7 +287,9 @@ const forgotPasswordHandler = async (
     );
 
     try {
-      const url = `http://localhost:5173/resetPassword/${resetToken}`;
+      const url = `${config.get<string>(
+        "frontendUrl"
+      )}/resetPassword/${resetToken}`;
 
       await new Email(user, url).sendPasswordResetToken();
 

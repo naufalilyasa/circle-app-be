@@ -9,7 +9,8 @@ module.exports = {
   redisCacheExpiresIn: 1440,
   refreshTokenExpiresIn: 1440,
   accessTokenExpiresIn: 60,
-  origin: "http://localhost:3000",
+  origin: process.env.BASE_URL,
+  frontendUrl: process.env.FRONTEND_URL,
   smtp: {
     host: process.env.EMAIL_HOST,
     pass: process.env.EMAIL_PASS,
