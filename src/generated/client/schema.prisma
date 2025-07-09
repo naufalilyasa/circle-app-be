@@ -36,7 +36,7 @@ model User {
   passwordResetToken String?
   passwordResetAt    DateTime?
   followers          Follow[]  @relation("FollowedBy")
-  following          Follow[]  @relation("Following")
+  followings         Follow[]  @relation("Following")
 
   @@unique([email, verificationCode, username, passwordResetToken])
   @@index([email, verificationCode, username, passwordResetToken])

@@ -130,7 +130,7 @@ const getUserById = async (req: Request, res: Response) => {
         _count: {
           select: {
             followers: true,
-            following: true,
+            followings: true,
           },
         },
       },

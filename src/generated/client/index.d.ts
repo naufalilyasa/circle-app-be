@@ -1254,7 +1254,7 @@ export namespace Prisma {
     likes: number
     replies: number
     followers: number
-    following: number
+    followings: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1262,7 +1262,7 @@ export namespace Prisma {
     likes?: boolean | UserCountOutputTypeCountLikesArgs
     replies?: boolean | UserCountOutputTypeCountRepliesArgs
     followers?: boolean | UserCountOutputTypeCountFollowersArgs
-    following?: boolean | UserCountOutputTypeCountFollowingArgs
+    followings?: boolean | UserCountOutputTypeCountFollowingsArgs
   }
 
   // Custom InputTypes
@@ -1307,7 +1307,7 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountFollowingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountFollowingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FollowWhereInput
   }
 
@@ -1643,7 +1643,7 @@ export namespace Prisma {
     likes?: boolean | User$likesArgs<ExtArgs>
     replies?: boolean | User$repliesArgs<ExtArgs>
     followers?: boolean | User$followersArgs<ExtArgs>
-    following?: boolean | User$followingArgs<ExtArgs>
+    followings?: boolean | User$followingsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1710,7 +1710,7 @@ export namespace Prisma {
     likes?: boolean | User$likesArgs<ExtArgs>
     replies?: boolean | User$repliesArgs<ExtArgs>
     followers?: boolean | User$followersArgs<ExtArgs>
-    following?: boolean | User$followingArgs<ExtArgs>
+    followings?: boolean | User$followingsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1723,7 +1723,7 @@ export namespace Prisma {
       likes: Prisma.$LikePayload<ExtArgs>[]
       replies: Prisma.$ReplyPayload<ExtArgs>[]
       followers: Prisma.$FollowPayload<ExtArgs>[]
-      following: Prisma.$FollowPayload<ExtArgs>[]
+      followings: Prisma.$FollowPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2140,7 +2140,7 @@ export namespace Prisma {
     likes<T extends User$likesArgs<ExtArgs> = {}>(args?: Subset<T, User$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     replies<T extends User$repliesArgs<ExtArgs> = {}>(args?: Subset<T, User$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     followers<T extends User$followersArgs<ExtArgs> = {}>(args?: Subset<T, User$followersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    following<T extends User$followingArgs<ExtArgs> = {}>(args?: Subset<T, User$followingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    followings<T extends User$followingsArgs<ExtArgs> = {}>(args?: Subset<T, User$followingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2670,9 +2670,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.following
+   * User.followings
    */
-  export type User$followingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$followingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Follow
      */
@@ -7372,7 +7372,7 @@ export namespace Prisma {
     likes?: LikeListRelationFilter
     replies?: ReplyListRelationFilter
     followers?: FollowListRelationFilter
-    following?: FollowListRelationFilter
+    followings?: FollowListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -7396,7 +7396,7 @@ export namespace Prisma {
     likes?: LikeOrderByRelationAggregateInput
     replies?: ReplyOrderByRelationAggregateInput
     followers?: FollowOrderByRelationAggregateInput
-    following?: FollowOrderByRelationAggregateInput
+    followings?: FollowOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -7425,7 +7425,7 @@ export namespace Prisma {
     likes?: LikeListRelationFilter
     replies?: ReplyListRelationFilter
     followers?: FollowListRelationFilter
-    following?: FollowListRelationFilter
+    followings?: FollowListRelationFilter
   }, "id" | "username" | "email" | "verificationCode" | "email_verificationCode_username_passwordResetToken">
 
   export type UserOrderByWithAggregationInput = {
@@ -7746,7 +7746,7 @@ export namespace Prisma {
     likes?: LikeCreateNestedManyWithoutUserInput
     replies?: ReplyCreateNestedManyWithoutAuthorInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
+    followings?: FollowCreateNestedManyWithoutFollowerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -7770,7 +7770,7 @@ export namespace Prisma {
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     replies?: ReplyUncheckedCreateNestedManyWithoutAuthorInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    followings?: FollowUncheckedCreateNestedManyWithoutFollowerInput
   }
 
   export type UserUpdateInput = {
@@ -7794,7 +7794,7 @@ export namespace Prisma {
     likes?: LikeUpdateManyWithoutUserNestedInput
     replies?: ReplyUpdateManyWithoutAuthorNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
+    followings?: FollowUpdateManyWithoutFollowerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -7818,7 +7818,7 @@ export namespace Prisma {
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutAuthorNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    followings?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -8069,7 +8069,7 @@ export namespace Prisma {
   export type FollowCreateInput = {
     id?: string
     createdAt?: Date | string
-    follower: UserCreateNestedOneWithoutFollowingInput
+    follower: UserCreateNestedOneWithoutFollowingsInput
     following: UserCreateNestedOneWithoutFollowersInput
   }
 
@@ -8083,7 +8083,7 @@ export namespace Prisma {
   export type FollowUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    follower?: UserUpdateOneRequiredWithoutFollowingNestedInput
+    follower?: UserUpdateOneRequiredWithoutFollowingsNestedInput
     following?: UserUpdateOneRequiredWithoutFollowersNestedInput
   }
 
@@ -8984,9 +8984,9 @@ export namespace Prisma {
     update?: XOR<XOR<ReplyUpdateToOneWithWhereWithoutLikesInput, ReplyUpdateWithoutLikesInput>, ReplyUncheckedUpdateWithoutLikesInput>
   }
 
-  export type UserCreateNestedOneWithoutFollowingInput = {
-    create?: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput>
-    connectOrCreate?: UserCreateOrConnectWithoutFollowingInput
+  export type UserCreateNestedOneWithoutFollowingsInput = {
+    create?: XOR<UserCreateWithoutFollowingsInput, UserUncheckedCreateWithoutFollowingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFollowingsInput
     connect?: UserWhereUniqueInput
   }
 
@@ -8996,12 +8996,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutFollowingNestedInput = {
-    create?: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput>
-    connectOrCreate?: UserCreateOrConnectWithoutFollowingInput
-    upsert?: UserUpsertWithoutFollowingInput
+  export type UserUpdateOneRequiredWithoutFollowingsNestedInput = {
+    create?: XOR<UserCreateWithoutFollowingsInput, UserUncheckedCreateWithoutFollowingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFollowingsInput
+    upsert?: UserUpsertWithoutFollowingsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFollowingInput, UserUpdateWithoutFollowingInput>, UserUncheckedUpdateWithoutFollowingInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFollowingsInput, UserUpdateWithoutFollowingsInput>, UserUncheckedUpdateWithoutFollowingsInput>
   }
 
   export type UserUpdateOneRequiredWithoutFollowersNestedInput = {
@@ -9265,7 +9265,7 @@ export namespace Prisma {
   export type FollowCreateWithoutFollowingInput = {
     id?: string
     createdAt?: Date | string
-    follower: UserCreateNestedOneWithoutFollowingInput
+    follower: UserCreateNestedOneWithoutFollowingsInput
   }
 
   export type FollowUncheckedCreateWithoutFollowingInput = {
@@ -9451,7 +9451,7 @@ export namespace Prisma {
     likes?: LikeCreateNestedManyWithoutUserInput
     replies?: ReplyCreateNestedManyWithoutAuthorInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
+    followings?: FollowCreateNestedManyWithoutFollowerInput
   }
 
   export type UserUncheckedCreateWithoutTweetsInput = {
@@ -9474,7 +9474,7 @@ export namespace Prisma {
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     replies?: ReplyUncheckedCreateNestedManyWithoutAuthorInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    followings?: FollowUncheckedCreateNestedManyWithoutFollowerInput
   }
 
   export type UserCreateOrConnectWithoutTweetsInput = {
@@ -9565,7 +9565,7 @@ export namespace Prisma {
     likes?: LikeUpdateManyWithoutUserNestedInput
     replies?: ReplyUpdateManyWithoutAuthorNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
+    followings?: FollowUpdateManyWithoutFollowerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTweetsInput = {
@@ -9588,7 +9588,7 @@ export namespace Prisma {
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutAuthorNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    followings?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
   }
 
   export type ReplyUpsertWithWhereUniqueWithoutTweetInput = {
@@ -9668,7 +9668,7 @@ export namespace Prisma {
     tweets?: TweetCreateNestedManyWithoutAuthorInput
     likes?: LikeCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
+    followings?: FollowCreateNestedManyWithoutFollowerInput
   }
 
   export type UserUncheckedCreateWithoutRepliesInput = {
@@ -9691,7 +9691,7 @@ export namespace Prisma {
     tweets?: TweetUncheckedCreateNestedManyWithoutAuthorInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    followings?: FollowUncheckedCreateNestedManyWithoutFollowerInput
   }
 
   export type UserCreateOrConnectWithoutRepliesInput = {
@@ -9783,7 +9783,7 @@ export namespace Prisma {
     tweets?: TweetUpdateManyWithoutAuthorNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
+    followings?: FollowUpdateManyWithoutFollowerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRepliesInput = {
@@ -9806,7 +9806,7 @@ export namespace Prisma {
     tweets?: TweetUncheckedUpdateManyWithoutAuthorNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    followings?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
   }
 
   export type LikeUpsertWithWhereUniqueWithoutReplyInput = {
@@ -9845,7 +9845,7 @@ export namespace Prisma {
     tweets?: TweetCreateNestedManyWithoutAuthorInput
     replies?: ReplyCreateNestedManyWithoutAuthorInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
+    followings?: FollowCreateNestedManyWithoutFollowerInput
   }
 
   export type UserUncheckedCreateWithoutLikesInput = {
@@ -9868,7 +9868,7 @@ export namespace Prisma {
     tweets?: TweetUncheckedCreateNestedManyWithoutAuthorInput
     replies?: ReplyUncheckedCreateNestedManyWithoutAuthorInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    followings?: FollowUncheckedCreateNestedManyWithoutFollowerInput
   }
 
   export type UserCreateOrConnectWithoutLikesInput = {
@@ -9957,7 +9957,7 @@ export namespace Prisma {
     tweets?: TweetUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUpdateManyWithoutAuthorNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
+    followings?: FollowUpdateManyWithoutFollowerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLikesInput = {
@@ -9980,7 +9980,7 @@ export namespace Prisma {
     tweets?: TweetUncheckedUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutAuthorNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    followings?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
   }
 
   export type TweetUpsertWithoutLikesInput = {
@@ -10045,7 +10045,7 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UserCreateWithoutFollowingInput = {
+  export type UserCreateWithoutFollowingsInput = {
     id?: string
     name: string
     photoProfile?: string | null
@@ -10068,7 +10068,7 @@ export namespace Prisma {
     followers?: FollowCreateNestedManyWithoutFollowingInput
   }
 
-  export type UserUncheckedCreateWithoutFollowingInput = {
+  export type UserUncheckedCreateWithoutFollowingsInput = {
     id?: string
     name: string
     photoProfile?: string | null
@@ -10091,9 +10091,9 @@ export namespace Prisma {
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
   }
 
-  export type UserCreateOrConnectWithoutFollowingInput = {
+  export type UserCreateOrConnectWithoutFollowingsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput>
+    create: XOR<UserCreateWithoutFollowingsInput, UserUncheckedCreateWithoutFollowingsInput>
   }
 
   export type UserCreateWithoutFollowersInput = {
@@ -10116,7 +10116,7 @@ export namespace Prisma {
     tweets?: TweetCreateNestedManyWithoutAuthorInput
     likes?: LikeCreateNestedManyWithoutUserInput
     replies?: ReplyCreateNestedManyWithoutAuthorInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
+    followings?: FollowCreateNestedManyWithoutFollowerInput
   }
 
   export type UserUncheckedCreateWithoutFollowersInput = {
@@ -10139,7 +10139,7 @@ export namespace Prisma {
     tweets?: TweetUncheckedCreateNestedManyWithoutAuthorInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     replies?: ReplyUncheckedCreateNestedManyWithoutAuthorInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    followings?: FollowUncheckedCreateNestedManyWithoutFollowerInput
   }
 
   export type UserCreateOrConnectWithoutFollowersInput = {
@@ -10147,18 +10147,18 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput>
   }
 
-  export type UserUpsertWithoutFollowingInput = {
-    update: XOR<UserUpdateWithoutFollowingInput, UserUncheckedUpdateWithoutFollowingInput>
-    create: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput>
+  export type UserUpsertWithoutFollowingsInput = {
+    update: XOR<UserUpdateWithoutFollowingsInput, UserUncheckedUpdateWithoutFollowingsInput>
+    create: XOR<UserCreateWithoutFollowingsInput, UserUncheckedCreateWithoutFollowingsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutFollowingInput = {
+  export type UserUpdateToOneWithWhereWithoutFollowingsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutFollowingInput, UserUncheckedUpdateWithoutFollowingInput>
+    data: XOR<UserUpdateWithoutFollowingsInput, UserUncheckedUpdateWithoutFollowingsInput>
   }
 
-  export type UserUpdateWithoutFollowingInput = {
+  export type UserUpdateWithoutFollowingsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     photoProfile?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10181,7 +10181,7 @@ export namespace Prisma {
     followers?: FollowUpdateManyWithoutFollowingNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutFollowingInput = {
+  export type UserUncheckedUpdateWithoutFollowingsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     photoProfile?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10235,7 +10235,7 @@ export namespace Prisma {
     tweets?: TweetUpdateManyWithoutAuthorNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     replies?: ReplyUpdateManyWithoutAuthorNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
+    followings?: FollowUpdateManyWithoutFollowerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowersInput = {
@@ -10258,7 +10258,7 @@ export namespace Prisma {
     tweets?: TweetUncheckedUpdateManyWithoutAuthorNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    followings?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
   }
 
   export type TweetCreateManyAuthorInput = {
@@ -10374,7 +10374,7 @@ export namespace Prisma {
   export type FollowUpdateWithoutFollowingInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    follower?: UserUpdateOneRequiredWithoutFollowingNestedInput
+    follower?: UserUpdateOneRequiredWithoutFollowingsNestedInput
   }
 
   export type FollowUncheckedUpdateWithoutFollowingInput = {
