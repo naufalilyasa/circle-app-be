@@ -30,7 +30,6 @@ const cookiesOptions: CookieOptions = {
   secure: isProduction,
 };
 
-
 const accessTokenCookieOptions: CookieOptions = {
   ...cookiesOptions,
   expires: new Date(
