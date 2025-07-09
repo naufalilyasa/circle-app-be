@@ -31,7 +31,7 @@ const uploadOnCloudinary = async (file: string): Promise<string | null> => {
       console.warn("Local file not found for cleaned up", file);
     }
 
-    return result.url;
+    return result.secure_url;
   } catch (error) {
     console.error("Error uploading to cloudinary", error);
 
