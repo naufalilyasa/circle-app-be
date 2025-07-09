@@ -175,26 +175,28 @@ const updateUserHandler = async (req: Request, res: Response) => {
 
     const files = req.files as UploadFields;
 
-    const photoProfilePath = files["photoProfile"]?.[0]?.path;
-    const bannerPath = files["banner"]?.[0]?.path;
-
-    let imagePhotoProfile = null;
-    let imageBanner = null;
-
-    if (photoProfilePath) {
-      imagePhotoProfile = await uploadOnCloudinary(photoProfilePath);
+    let imagePhotoProfileSecureUrl = null;
+    if (files.photoProfile) {
+      imagePhotoProfileSecureUrl = await uploadOnCloudinary(
+        files.photoProfile?.[0]?.buffer
+      );
     }
 
-    if (bannerPath) {
-      imageBanner = await uploadOnCloudinary(bannerPath);
+    let imageBannerSecureUrl = null;
+    if (files.banner) {
+      imageBannerSecureUrl = await uploadOnCloudinary(
+        files.banner?.[0]?.buffer
+      );
     }
 
     const updateUserData = {
       name: String(name),
       username: String(username),
       bio: String(bio),
-      ...(imagePhotoProfile !== null && { photoProfile: imagePhotoProfile }),
-      ...(imageBanner !== null && { banner: imageBanner }),
+      ...(imagePhotoProfileSecureUrl !== null && {
+        photoProfile: imagePhotoProfileSecureUrl,
+      }),
+      ...(imageBannerSecureUrl !== null && { banner: imageBannerSecureUrl }),
     };
 
     const user = await prisma.user.update({

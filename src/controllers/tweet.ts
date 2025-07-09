@@ -353,15 +353,12 @@ const createTweet = async (req: Request, res: Response) => {
   try {
     const { content, authorId } = req.body;
 
-    const imageTweetPath = req.file?.path;
-
-    let image = null;
-
-    if (imageTweetPath) {
-      image = await uploadOnCloudinary(imageTweetPath);
+    let imageSecureUrl = null;
+    if (req.file) {
+      imageSecureUrl = await uploadOnCloudinary(req.file.buffer);
     }
 
-    const newDataTweet = { content, authorId, imageUrl: image };
+    const newDataTweet = { content, authorId, imageUrl: imageSecureUrl };
 
     const tweet = await prisma.tweet.create({ data: newDataTweet });
     res.status(201).json({ tweet, message: "Berhasil membuat tweet" });
@@ -387,23 +384,14 @@ const updateTweet = async (req: Request, res: Response) => {
   const tweetId = req.params.tweetId;
   // const { content, authorId } = req.body;
   const { content } = req.body;
-  const imageTweetPath = req.file?.path;
-
-  let image = null;
-
-  if (imageTweetPath) {
-    image = await uploadOnCloudinary(imageTweetPath);
+  let imageSecureUrl = null;
+  if (req.file) {
+    imageSecureUrl = await uploadOnCloudinary(req.file.buffer);
   }
 
-  const updateTweetData = { content, imageUrl: image };
+  const updateTweetData = { content, imageUrl: imageSecureUrl };
 
   try {
-    // const user = await prisma.user.findUnique({ where: authorId });
-
-    // if (!user) {
-    //   res.status(200).json({ message: "harus login" });
-    // }
-
     const tweet = await prisma.tweet.update({
       where: { id: tweetId },
       data: updateTweetData,

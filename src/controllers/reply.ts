@@ -28,12 +28,9 @@ const createReply = async (req: Request, res: Response) => {
   try {
     const { content, authorId, tweetId } = req.body;
 
-    const fileImagePath = req.file?.path;
-
-    let image = null;
-
-    if (fileImagePath) {
-      image = await uploadOnCloudinary(fileImagePath);
+    let imageSecureUrl = null;
+    if (req.file) {
+      imageSecureUrl = await uploadOnCloudinary(req.file.buffer);
     }
 
     const result = await prisma.reply.create({
@@ -41,7 +38,7 @@ const createReply = async (req: Request, res: Response) => {
         content,
         authorId,
         tweetId,
-        imageUrl: image,
+        imageUrl: imageSecureUrl,
       },
     });
 

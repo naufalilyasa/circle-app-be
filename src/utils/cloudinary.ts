@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 import "dotenv/config";
 import fs from "fs";
+import { Readable } from "stream";
 
 (async function initCloudinary() {
   cloudinary.config({
@@ -13,37 +14,27 @@ import fs from "fs";
 
 export const cloudinaryFolderName = "circle-app-image-storage";
 
-const uploadOnCloudinary = async (file: string): Promise<string | null> => {
-  try {
-    if (!file) return null;
+const uploadOnCloudinary = async (buffer: Buffer): Promise<string | null> => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: cloudinaryFolderName,
+        resource_type: "image",
+      },
+      (error, result) => {
+        if (error) {
+          console.error("Error uploading to Cloudinary", error);
+          return reject(null);
+        }
+        if (!result?.secure_url) return reject(null);
 
-    const result = await cloudinary.uploader.upload(file, {
-      folder: cloudinaryFolderName,
-      resource_type: "image",
-    });
+        console.log("Upload success:", result.secure_url);
+        resolve(result.secure_url);
+      }
+    );
 
-    console.log("File uploaded successfully", result.url);
-
-    if (fs.existsSync(file)) {
-      fs.unlinkSync(file);
-      console.log("Local file cleaned up", file);
-    } else {
-      console.warn("Local file not found for cleaned up", file);
-    }
-
-    return result.secure_url;
-  } catch (error) {
-    console.error("Error uploading to cloudinary", error);
-
-    if (fs.existsSync(file)) {
-      fs.unlinkSync(file);
-      console.log("Local file cleaned up", file);
-    } else {
-      console.warn("Local file not found for cleaned up", file);
-    }
-
-    return null;
-  }
+    Readable.from(buffer).pipe(uploadStream);
+  });
 };
 
 export default uploadOnCloudinary;
