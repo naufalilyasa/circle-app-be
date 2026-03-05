@@ -58,7 +58,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/pug": "^2.0.10",
     "morgan": "^1.10.0",
-    "prisma": "^6.5.0",
+    "prisma": "^7.4.2",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3"
   }
