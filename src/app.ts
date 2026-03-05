@@ -40,7 +40,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Logger
-if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
+if (process.env.NODE_ENV !== "production") app.use(morgan("dev"));
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
@@ -69,10 +69,12 @@ app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-const port = config.get<number>("port");
-
-app.listen(port, () => {
-  console.log(`Server running at port ${process.env.PORT}`);
-});
+// Only start a local server when NOT running on Vercel (serverless)
+if (!process.env.VERCEL) {
+  const port = config.get<number>("port");
+  app.listen(port, () => {
+    console.log(`Server running at port ${port}`);
+  });
+}
 
 export default app;
