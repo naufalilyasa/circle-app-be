@@ -9,15 +9,17 @@ import {
   getAllTweetsWithMediaById,
 } from "../controllers/tweet";
 import upload from "../middlewares/multer";
+import { deserializeUser, requireUser } from "../middlewares/auth";
 
 const router = Router();
 
-router.get("/", getAllTweets);
-router.get("/all/:userId", getAllTweetsById);
-router.get("/:tweetId", getTweetById);
-router.get("/media/:tweetId", getAllTweetsWithMediaById);
-router.post("/", upload.single("image"), createTweet);
-router.delete("/:tweetId", deleteTweet);
-router.patch("/:tweetId", upload.single("image"), updateTweet);
+router.get("/", deserializeUser, requireUser, getAllTweets);
+router.get("/all/:userId", deserializeUser, requireUser, getAllTweetsById);
+router.get("/:tweetId", deserializeUser, requireUser, getTweetById);
+router.get("/media/:tweetId", deserializeUser, requireUser, getAllTweetsWithMediaById);
+router.post("/", deserializeUser, requireUser, upload.single("image"), createTweet);
+router.delete("/:tweetId", deserializeUser, requireUser, deleteTweet);
+router.patch("/:tweetId", deserializeUser, requireUser, upload.single("image"), updateTweet);
 
 export { router };
+

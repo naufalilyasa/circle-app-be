@@ -198,7 +198,7 @@ const verifyEmailHandler = async (
   try {
     const verificationCode = crypto
       .createHash("sha256")
-      .update(req.params.verificationCode)
+      .update(req.params.verificationCode as string)
       .digest("hex");
 
     const user = await updateUser(

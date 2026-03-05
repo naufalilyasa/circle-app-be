@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import { prisma } from "../prisma/client";
 import { verifyJwt } from "../utils/jwt";
+import { userSafeOmit } from "../constants/prismaSelects";
 
 const getUserFollowers = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.params.userId as string;
 
     const result = await prisma.follow.findMany({
       where: {
@@ -12,13 +13,7 @@ const getUserFollowers = async (req: Request, res: Response) => {
       },
       include: {
         follower: {
-          omit: {
-            password: true,
-            passwordResetAt: true,
-            passwordResetToken: true,
-            verificationCode: true,
-            provider: true,
-          },
+          omit: userSafeOmit,
         },
       },
     });
@@ -32,7 +27,7 @@ const getUserFollowers = async (req: Request, res: Response) => {
 
 const getUserFollowings = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.params.userId as string;
 
     const result = await prisma.follow.findMany({
       where: {
@@ -40,13 +35,7 @@ const getUserFollowings = async (req: Request, res: Response) => {
       },
       include: {
         following: {
-          omit: {
-            password: true,
-            passwordResetAt: true,
-            passwordResetToken: true,
-            verificationCode: true,
-            provider: true,
-          },
+          omit: userSafeOmit,
         },
       },
     });
@@ -60,8 +49,8 @@ const getUserFollowings = async (req: Request, res: Response) => {
 
 const userFollow = async (req: Request, res: Response) => {
   try {
-    const targetUserId = req.params.targetUserId;
-    const { userId } = req.body;
+    const targetUserId = req.params.targetUserId as string;
+    const userId = res.locals.user.id;
 
     const existing = await prisma.follow.findUnique({
       where: {
@@ -73,7 +62,8 @@ const userFollow = async (req: Request, res: Response) => {
     });
 
     if (existing) {
-      throw new Error("You already follow this user");
+      res.status(409).json({ status: "fail", message: "You already follow this user" });
+      return;
     }
 
     const result = await prisma.follow.create({
@@ -83,7 +73,7 @@ const userFollow = async (req: Request, res: Response) => {
       },
     });
 
-    res.status(200).json({ status: "success", message: "Follow success" });
+    res.status(201).json({ status: "success", message: "Follow success" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "server internal error" });
@@ -92,15 +82,8 @@ const userFollow = async (req: Request, res: Response) => {
 
 const userUnfollow = async (req: Request, res: Response) => {
   try {
-    const targetUserId = req.params.targetUserId;
-    const access_token = req.cookies.access_token;
-    const decoded = verifyJwt<{ sub: string }>(
-      access_token,
-      "accessTokenPublicKey"
-    );
-    if (!decoded) throw new Error("You are not logged in");
-
-    const userId = decoded!.sub;
+    const targetUserId = req.params.targetUserId as string;
+    const userId = res.locals.user.id;
 
     const result = await prisma.follow.delete({
       where: {
@@ -123,7 +106,7 @@ const userUnfollow = async (req: Request, res: Response) => {
 
 const getUserIsFollowFollowings = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.params.userId as string;
 
     // Get the ids of login user followings
     const followingIds = await prisma.follow.findMany({
@@ -171,7 +154,7 @@ const getUserIsFollowFollowings = async (req: Request, res: Response) => {
 
 const getUserIsFollowFollowers = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.params.userId as string;
 
     // Get the follower ids of login user followers
     const followerIds = await prisma.follow.findMany({
@@ -232,7 +215,7 @@ const getUserIsFollowFollowers = async (req: Request, res: Response) => {
 const getUserFollowersToSuggest = async (req: Request, res: Response) => {
   try {
     // Request params userId (login user id)
-    const userId = req.params.userId;
+    const userId = req.params.userId as string;
 
     // Get following ids of the login user
     const followingsOfUser = await prisma.follow.findMany({
@@ -270,11 +253,7 @@ const getUserFollowersToSuggest = async (req: Request, res: Response) => {
         },
       },
       omit: {
-        password: true,
-        passwordResetAt: true,
-        passwordResetToken: true,
-        verificationCode: true,
-        provider: true,
+        ...userSafeOmit,
         createdAt: true,
         updatedAt: true,
         role: true,

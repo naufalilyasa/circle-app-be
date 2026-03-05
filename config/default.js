@@ -22,4 +22,7 @@ module.exports = {
     googleSenderMail: process.env.GOOGLE_SENDER_MAIL,
     googleUser: process.env.GOOGLE_USER,
   },
+  database: {
+    url: process.env.DATABASE_URL,
+  },
 };

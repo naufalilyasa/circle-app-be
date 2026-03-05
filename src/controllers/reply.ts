@@ -9,19 +9,19 @@ const getAllReplies = async (req: Request, res: Response) => {
     res.status(200).json({ result });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "gagal mendapatkan tweets" });
+    res.status(500).json({ message: "gagal mendapatkan replies" });
   }
 };
 
 const getReplyById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = req.params.id as string;
 
     const result = await prisma.reply.findUnique({ where: { id } });
     res.status(200).json({ result });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "gagal mendapatkan tweets" });
+    res.status(500).json({ message: "gagal mendapatkan reply" });
   }
 };
 
@@ -50,13 +50,13 @@ const createReply = async (req: Request, res: Response) => {
     res.status(200).json({ result });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "gagal mendapatkan tweets" });
+    res.status(500).json({ message: "gagal membuat reply" });
   }
 };
 
 const deleteReply = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = req.params.id as string;
     const result = await prisma.reply.delete({
       where: {
         id,
@@ -65,13 +65,13 @@ const deleteReply = async (req: Request, res: Response) => {
     res.status(200).json({ result });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "gagal mendapatkan tweets" });
+    res.status(500).json({ message: "gagal menghapus reply" });
   }
 };
 
 const updateReply = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = req.params.id as string;
     const { content } = req.body;
     const result = await prisma.reply.update({
       where: { id },
@@ -81,7 +81,7 @@ const updateReply = async (req: Request, res: Response) => {
     res.status(200).json({ result });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "gagal mendapatkan tweets" });
+    res.status(500).json({ message: "gagal mengupdate reply" });
   }
 };
 

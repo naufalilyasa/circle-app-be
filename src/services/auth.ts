@@ -64,16 +64,16 @@ export const loginUser = async (
     }
   );
 
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    throw new AppError(400, "Invalid email or password");
+  }
+
   // check if user verified
   if (!user.verified)
     throw new AppError(
       400,
       "You are not verified, please verify your email to login"
     );
-
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    throw new AppError(400, "Invalid email or password");
-  }
 
   return await signTokens(user);
 };

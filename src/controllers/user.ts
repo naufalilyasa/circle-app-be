@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../prisma/client";
 import uploadOnCloudinary from "../utils/cloudinary";
-import { verifyJwt } from "../utils/jwt";
+import { userSafeOmit } from "../constants/prismaSelects";
 import sharp from "sharp";
 
 const getMeHandler = async (
@@ -26,13 +26,7 @@ const getMeHandler = async (
 const getUsers = async (req: Request, res: Response) => {
   try {
     const allUsers = await prisma.user.findMany({
-      omit: {
-        password: true,
-        passwordResetAt: true,
-        passwordResetToken: true,
-        verificationCode: true,
-        provider: true,
-      },
+      omit: userSafeOmit,
       take: 3,
     });
     res.status(200).json({ allUsers });
@@ -51,14 +45,7 @@ const searchUsers = async (req: Request, res: Response) => {
       return;
     }
 
-    const access_token = req.cookies.access_token;
-    const decoded = verifyJwt<{ sub: string }>(
-      access_token,
-      "accessTokenPublicKey"
-    );
-    if (!decoded) throw new Error("You are not logged in");
-
-    const authUserId = decoded!.sub;
+    const authUserId = res.locals.user.id;
 
     const allUsers = await prisma.user.findMany({
       where: {
@@ -72,13 +59,7 @@ const searchUsers = async (req: Request, res: Response) => {
           },
         },
       },
-      omit: {
-        password: true,
-        passwordResetAt: true,
-        passwordResetToken: true,
-        verificationCode: true,
-        provider: true,
-      },
+      omit: userSafeOmit,
     });
 
     res.status(200).json({ data: allUsers });
@@ -90,7 +71,7 @@ const searchUsers = async (req: Request, res: Response) => {
 
 const getUserTweets = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = req.params.id as string;
 
     const allUserTweets = await prisma.user.findUnique({
       where: { id },
@@ -107,25 +88,13 @@ const getUserTweets = async (req: Request, res: Response) => {
 
 const getUserById = async (req: Request, res: Response) => {
   try {
-    const paramsId = req.params.id;
+    const paramsId = req.params.id as string;
 
-    const access_token = req.cookies.access_token;
-    const decoded = verifyJwt<{ sub: string }>(
-      access_token,
-      "accessTokenPublicKey"
-    );
-    if (!decoded) throw new Error("Invalid token or session has expired");
-    const currentUserId = decoded.sub;
+    const currentUserId = res.locals.user.id;
 
     const user = await prisma.user.findUnique({
       where: { id: paramsId },
-      omit: {
-        password: true,
-        passwordResetAt: true,
-        passwordResetToken: true,
-        verificationCode: true,
-        provider: true,
-      },
+      omit: userSafeOmit,
       include: {
         _count: {
           select: {
@@ -155,7 +124,7 @@ const getUserById = async (req: Request, res: Response) => {
 
 const deleteUser = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = req.params.id as string;
     await prisma.user.delete({ where: { id: id } });
     res.status(201).json({ message: "Berhasil menghapus user" });
   } catch (e) {
@@ -171,7 +140,7 @@ type UploadFields = {
 
 const updateUserHandler = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = req.params.id as string;
     const { name, username, bio } = req.body;
 
     const files = req.files as UploadFields;

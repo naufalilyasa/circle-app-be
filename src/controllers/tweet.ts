@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { prisma } from "../prisma/client";
 import uploadOnCloudinary from "../utils/cloudinary";
-import { verifyJwt } from "../utils/jwt";
 import sharp from "sharp";
+import { userSafeOmit } from "../constants/prismaSelects";
 
 const getAllTweets = async (req: Request, res: Response) => {
   const { sortBy = "createdAt", order = "desc" } = req.query;
@@ -10,14 +10,7 @@ const getAllTweets = async (req: Request, res: Response) => {
   const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
 
-  const access_token = req.cookies.access_token;
-  const decoded = verifyJwt<{ sub: string }>(
-    access_token,
-    "accessTokenPublicKey"
-  );
-  if (!decoded) throw new Error("You are not logged in");
-
-  const authUserId = decoded!.sub;
+  const authUserId = res.locals.user.id;
 
   try {
     const total = await prisma.tweet.count();
@@ -27,13 +20,7 @@ const getAllTweets = async (req: Request, res: Response) => {
       take: limit,
       include: {
         author: {
-          omit: {
-            password: true,
-            passwordResetAt: true,
-            passwordResetToken: true,
-            verificationCode: true,
-            provider: true,
-          },
+          omit: userSafeOmit,
         },
         _count: {
           select: {
@@ -96,18 +83,11 @@ const getAllTweets = async (req: Request, res: Response) => {
 
 const getAllTweetsById = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.params.userId as string;
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
     const skip = (page - 1) * limit;
-    const access_token = req.cookies.access_token;
-    const decoded = verifyJwt<{ sub: string }>(
-      access_token,
-      "accessTokenPublicKey"
-    );
-    if (!decoded) throw new Error("You are not logged in");
-
-    const authUserId = decoded!.sub;
+    const authUserId = res.locals.user.id;
 
     const result = await prisma.tweet.findMany({
       where: {
@@ -122,13 +102,7 @@ const getAllTweetsById = async (req: Request, res: Response) => {
         replies: true,
         likes: true,
         author: {
-          omit: {
-            password: true,
-            passwordResetAt: true,
-            passwordResetToken: true,
-            verificationCode: true,
-            provider: true,
-          },
+          omit: userSafeOmit,
         },
         _count: {
           select: {
@@ -138,7 +112,7 @@ const getAllTweetsById = async (req: Request, res: Response) => {
         },
       },
     });
-    const total = await prisma.tweet.count();
+    const total = await prisma.tweet.count({ where: { authorId: userId } });
 
     const tweetIds = await prisma.like.findMany({
       where: {
@@ -171,18 +145,11 @@ const getAllTweetsById = async (req: Request, res: Response) => {
 
 const getAllTweetsWithMediaById = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.params.userId as string;
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
     const skip = (page - 1) * limit;
-    const access_token = req.cookies.access_token;
-    const decoded = verifyJwt<{ sub: string }>(
-      access_token,
-      "accessTokenPublicKey"
-    );
-    if (!decoded) throw new Error("You are not logged in");
-
-    const authUserId = decoded!.sub;
+    const authUserId = res.locals.user.id;
 
     const result = await prisma.tweet.findMany({
       where: {
@@ -202,13 +169,7 @@ const getAllTweetsWithMediaById = async (req: Request, res: Response) => {
         replies: true,
         likes: true,
         author: {
-          omit: {
-            password: true,
-            passwordResetAt: true,
-            passwordResetToken: true,
-            verificationCode: true,
-            provider: true,
-          },
+          omit: userSafeOmit,
         },
         _count: {
           select: {
@@ -220,6 +181,7 @@ const getAllTweetsWithMediaById = async (req: Request, res: Response) => {
     });
     const total = await prisma.tweet.count({
       where: {
+        authorId: userId,
         imageUrl: {
           not: null,
         },
@@ -257,40 +219,21 @@ const getAllTweetsWithMediaById = async (req: Request, res: Response) => {
 
 const getTweetById = async (req: Request, res: Response) => {
   try {
-    const tweetId = req.params.tweetId;
-    const access_token = req.cookies.access_token;
-    const decoded = verifyJwt<{ sub: string }>(
-      access_token,
-      "accessTokenPublicKey"
-    );
-    if (!decoded) throw new Error("You are not logged in");
-
-    const authUserId = decoded!.sub;
+    const tweetId = req.params.tweetId as string;
+    const authUserId = res.locals.user.id;
 
     const tweet = await prisma.tweet.findUnique({
       where: { id: tweetId },
 
       include: {
         author: {
-          omit: {
-            password: true,
-            passwordResetAt: true,
-            passwordResetToken: true,
-            verificationCode: true,
-            provider: true,
-          },
+          omit: userSafeOmit,
         },
         replies: {
           orderBy: { createdAt: "asc" },
           include: {
             author: {
-              omit: {
-                password: true,
-                passwordResetAt: true,
-                passwordResetToken: true,
-                verificationCode: true,
-                provider: true,
-              },
+              omit: userSafeOmit,
             },
             _count: {
               select: {
@@ -332,7 +275,7 @@ const getTweetById = async (req: Request, res: Response) => {
 
     const setTweetIdsLiked = new Set(tweetIdsLiked.map((d) => d.tweetId));
 
-    const repliesIsLike = tweet?.replies.map((reply) => ({
+    const repliesIsLike = ((tweet as any)?.replies || []).map((reply: any) => ({
       ...reply,
       isLike: setReplyIdsLiked.has(reply.id),
     }));
@@ -375,7 +318,7 @@ const createTweet = async (req: Request, res: Response) => {
 
 const deleteTweet = async (req: Request, res: Response) => {
   try {
-    const tweetId = req.params.tweetId;
+    const tweetId = req.params.tweetId as string;
     await prisma.tweet.delete({ where: { id: tweetId } });
 
     res.status(200).json({ message: "Berhasil menghapus tweet" });
@@ -386,7 +329,7 @@ const deleteTweet = async (req: Request, res: Response) => {
 };
 
 const updateTweet = async (req: Request, res: Response) => {
-  const tweetId = req.params.tweetId;
+  const tweetId = req.params.tweetId as string;
   // const { content, authorId } = req.body;
   const { content } = req.body;
   let imageSecureUrl = null;

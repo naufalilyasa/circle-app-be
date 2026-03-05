@@ -6,13 +6,15 @@ import {
   userUnlikeReply,
   userUnlikeTweet,
 } from "../controllers/like";
+import { deserializeUser, requireUser } from "../middlewares/auth";
 
 const router = Router();
 
 router.get("/", getLikes);
-router.post("/likeTweet/:targetTweetId", userLikeTweet);
-router.delete("/unlikeTweet/:targetTweetId", userUnlikeTweet);
-router.post("/likeReply/:targetReplyId", userLikeReply);
-router.delete("/unlikeReply/:targetReplyId", userUnlikeReply);
+router.post("/likeTweet/:targetTweetId", deserializeUser, requireUser, userLikeTweet);
+router.delete("/unlikeTweet/:targetTweetId", deserializeUser, requireUser, userUnlikeTweet);
+router.post("/likeReply/:targetReplyId", deserializeUser, requireUser, userLikeReply);
+router.delete("/unlikeReply/:targetReplyId", deserializeUser, requireUser, userUnlikeReply);
 
 export { router };
+
