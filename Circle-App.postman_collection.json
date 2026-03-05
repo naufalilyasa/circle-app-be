@@ -1,0 +1,1048 @@
+{
+	"info": {
+		"_postman_id": "eca2c9b7-ff9d-4b12-823a-276776822f06",
+		"name": "Circle-App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10516372"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/users",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "sddsds",
+								"value": "sdasd",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/v1/users/?search=",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								""
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": ""
+								},
+								{
+									"key": "username",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Tweets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/users/1/posts",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"1",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By Id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/users/cd857921-2177-4002-82f5-dbd0055259ed",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"cd857921-2177-4002-82f5-dbd0055259ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"John\",\r\n    \"username\": \"John2\",\r\n    \"email\": \"john2@gmail.com\",\r\n    \"password\": \"1234\",\r\n    \"confirmPassword\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/users",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/users/4",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"John Cena\",\r\n    \"username\": \"John edit\",\r\n    \"email\": \"john2@hotmail.com\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/users/4",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/users/me",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tweet",
+			"item": [
+				{
+					"name": "Get Tweets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/tweets?page=1&offset=10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"tweets"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "order",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "offset",
+									"value": "10"
+								},
+								{
+									"key": "userId",
+									"value": "cd857921-2177-4002-82f5-dbd0055259ed",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tweets media paginated",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/tweets/media/6e0de94e-22d2-4f8e-a0ef-ca778584a87d?limit=10&page=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"tweets",
+								"media",
+								"6e0de94e-22d2-4f8e-a0ef-ca778584a87d"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "order",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "userId",
+									"value": "cd857921-2177-4002-82f5-dbd0055259ed",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tweet By Id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/tweets/bb218fb5-bcb2-4adb-a64a-b02e99532c7d",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"tweets",
+								"bb218fb5-bcb2-4adb-a64a-b02e99532c7d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Tweet",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "Test upload image",
+									"type": "text"
+								},
+								{
+									"key": "authorId",
+									"value": "cd857921-2177-4002-82f5-dbd0055259ed",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/D:/Downloads/black-tea.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/tweets",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"tweets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Tweet",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/tweets/4",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tweets",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Tweet",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Edited content.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/tweets/5",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tweets",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Tweets By userId",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/tweets/all/cd857921-2177-4002-82f5-dbd0055259ed",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"tweets",
+								"all",
+								"cd857921-2177-4002-82f5-dbd0055259ed"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Profile User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/profile",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Naufal Ilyasa\",\r\n    \"username\": \"naufalilyasa\",\r\n    \"email\": \"naufal.ilyasa7@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"passwordConfirm\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"naufal.ilyasa7@gmail.com\",\r\n    \"password\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"naufal.ilyasa7@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/auth/forgotPassword",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"forgotPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"123456789\",\r\n    \"passwordConfirm\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/auth/resetPassword/0bdc0b09b1fbe71c24ed61878e84f2ba5041495ad645b0d21e273771ea07dbed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"resetPassword",
+								"0bdc0b09b1fbe71c24ed61878e84f2ba5041495ad645b0d21e273771ea07dbed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/auth/logout",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/auth/resetPassword/asd",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"resetPassword",
+								"asd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Like",
+			"item": [
+				{
+					"name": "Get All Likes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/likes",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"likes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Like Tweet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"cd857921-2177-4002-82f5-dbd0055259ed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/likeTweet/dfd7d1e9-1ed1-44b4-b596-6090f71d6ccf",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"likeTweet",
+								"dfd7d1e9-1ed1-44b4-b596-6090f71d6ccf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Like Reply",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"cd857921-2177-4002-82f5-dbd0055259ed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/likeReply/e4b5cb9d-4270-4842-a0d5-9a30c7e053f0",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"likeReply",
+								"e4b5cb9d-4270-4842-a0d5-9a30c7e053f0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Unlike Tweet",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/unlikeTweet/dfd7d1e9-1ed1-44b4-b596-6090f71d6ccf",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"unlikeTweet",
+								"dfd7d1e9-1ed1-44b4-b596-6090f71d6ccf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Unlike Reply",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/unlikeReply/e4b5cb9d-4270-4842-a0d5-9a30c7e053f0",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"unlikeReply",
+								"e4b5cb9d-4270-4842-a0d5-9a30c7e053f0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Follow",
+			"item": [
+				{
+					"name": "User Follow",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"followerId\": \"87775920-4de2-423a-9f1a-79ad417be18d\"\r\n    \"userId\": \"81fce842-4042-4000-881e-f06eb9510483\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/follow/cd857921-2177-4002-82f5-dbd0055259ed",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"follow",
+								"cd857921-2177-4002-82f5-dbd0055259ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Unfollow",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"followerId\": \"87775920-4de2-423a-9f1a-79ad417be18d\"\r\n    \"userId\": \"81fce842-4042-4000-881e-f06eb9510483\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/unfollow/cd857921-2177-4002-82f5-dbd0055259ed",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"unfollow",
+								"cd857921-2177-4002-82f5-dbd0055259ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Followings",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/followings/cd857921-2177-4002-82f5-dbd0055259ed",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"followings",
+								"cd857921-2177-4002-82f5-dbd0055259ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users Is Follower",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"userId\": \"87775920-4de2-423a-9f1a-79ad417be18d\"\r\n    // \"followerId\": \"81fce842-4042-4000-881e-f06eb9510483\"\r\n    // \"userId\": \"cd857921-2177-4002-82f5-dbd0055259ed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/usersIsFollower/cd857921-2177-4002-82f5-dbd0055259ed",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"usersIsFollower",
+								"cd857921-2177-4002-82f5-dbd0055259ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users Is Following",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"userId\": \"87775920-4de2-423a-9f1a-79ad417be18d\"\r\n    // \"followerId\": \"81fce842-4042-4000-881e-f06eb9510483\"\r\n    // \"userId\": \"cd857921-2177-4002-82f5-dbd0055259ed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/usersIsFollowing/cd857921-2177-4002-82f5-dbd0055259ed",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"usersIsFollowing",
+								"cd857921-2177-4002-82f5-dbd0055259ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Suggested",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"userId\": \"87775920-4de2-423a-9f1a-79ad417be18d\"\r\n    // \"followerId\": \"81fce842-4042-4000-881e-f06eb9510483\"\r\n    // \"userId\": \"cd857921-2177-4002-82f5-dbd0055259ed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/suggested/cd857921-2177-4002-82f5-dbd0055259ed",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"suggested",
+								"cd857921-2177-4002-82f5-dbd0055259ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Followers",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/followers/cd857921-2177-4002-82f5-dbd0055259ed",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"followers",
+								"cd857921-2177-4002-82f5-dbd0055259ed"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

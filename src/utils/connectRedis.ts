@@ -11,10 +11,10 @@ const connectRedis = async () => {
   try {
     if (!redisClient.isOpen) {
       await redisClient.connect();
-      console.log("✅ Redis connected successfully");
+      console.log("Redis connected successfully");
       await redisClient.set("try", "Hello welcome to my app");
     } else {
-      console.log("ℹ️ Redis already connected");
+      console.log("Redis already connected");
     }
   } catch (error) {
     console.log(error);

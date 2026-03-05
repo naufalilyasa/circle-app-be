@@ -1,10 +1,11 @@
 export default class AppError extends Error {
   status: string;
-  isOpertional: boolean;
+  isOperational: boolean;
+  
   constructor(public statusCode: number = 500, public message: string) {
     super(message);
     this.status = `${statusCode}`.startsWith("4") ? "fail" : "error";
-    this.isOpertional = true;
+    this.isOperational = true;
 
     Error.captureStackTrace(this, this.constructor);
   }
