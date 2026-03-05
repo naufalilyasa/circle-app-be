@@ -17,7 +17,7 @@ import {
 import { Prisma } from "../generated/client";
 import { signJwt, verifyJwt } from "../utils/jwt";
 import AppError from "../utils/appError";
-import redisClient from "../utils/connectRedis";
+import redisClient, { connectRedis } from "../utils/connectRedis";
 import Email from "../utils/email";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
@@ -158,7 +158,7 @@ const refreshAccessTokenHandler = async (
 
     if (!decoded) return next(new AppError(401, message));
 
-    // check if user has a valid session
+    await connectRedis();
     const session = await redisClient.get(decoded.sub);
 
     if (!session) return next(new AppError(401, message));
@@ -231,6 +231,7 @@ const handleLogout = async (
   next: NextFunction
 ) => {
   try {
+    await connectRedis();
     await redisClient.del(res.locals.user.id);
     logout(res);
 

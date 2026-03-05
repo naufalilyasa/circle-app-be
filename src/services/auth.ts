@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { prisma } from "../prisma/client";
 import { Prisma, User } from "../generated/client";
 import crypto from "crypto";
-import redisClient from "../utils/connectRedis";
+import redisClient, { connectRedis } from "../utils/connectRedis";
 import config from "config";
 import { signJwt } from "../utils/jwt";
 import AppError from "../utils/appError";
@@ -91,8 +91,8 @@ export const updateUser = async (
 };
 
 const signTokens = async (user: Prisma.UserCreateInput) => {
-  // create session
-  redisClient.set(`${user.id}`, JSON.stringify(user), {
+  await connectRedis();
+  await redisClient.set(`${user.id}`, JSON.stringify(user), {
     EX: config.get<number>("redisCacheExpiresIn") * 60,
   });
 

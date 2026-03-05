@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import AppError from "../utils/appError";
 import { verifyJwt } from "../utils/jwt";
-import redisClient from "../utils/connectRedis";
+import redisClient, { connectRedis } from "../utils/connectRedis";
 import { excludedFields, findUniqueUser } from "../services/auth";
 import { omit } from "lodash";
 
@@ -34,6 +34,7 @@ export const deserializeUser = async (
       return next(new AppError(401, "Invalid token or session has expired"));
 
     // check if user has valid session
+    await connectRedis();
     const session = await redisClient.get(decoded.sub);
 
     if (!session)

@@ -7,21 +7,18 @@ const redisClient = createClient({
   url: redisUrl,
 });
 
-const connectRedis = async () => {
+export const connectRedis = async () => {
+  if (redisClient.isOpen) return redisClient;
+
   try {
-    if (!redisClient.isOpen) {
-      await redisClient.connect();
-      console.log("Redis connected successfully");
-      await redisClient.set("try", "Hello welcome to my app");
-    } else {
-      console.log("Redis already connected");
-    }
+    await redisClient.connect();
+    console.log("Redis connected successfully");
+    return redisClient;
   } catch (error) {
-    console.log(error);
-    setTimeout(connectRedis, 5000);
+    console.error("Redis connection error:", error);
+    // Don't loop infinitely in serverless, let the caller handle the throw
+    throw error;
   }
 };
-
-connectRedis();
 
 export default redisClient;
